@@ -5,4 +5,5 @@ from . import views
 urlpatterns=[
     url('^$',views.welcome,name = 'welcome'),
     url(r'^search/',views.search_results, name='search_results'),
+    url(r'^create/profile$',views.create_profile, name='create-profile'),
 ]
