@@ -5,7 +5,7 @@ from django.db.models import Q
 import datetime as dt
 
 # Create your models here.
-class countries(models.Model):
+class Countries(models.Model):
     countries = models.CharField(max_length=100)
 
     def __str__(self):
@@ -26,7 +26,7 @@ class countries(models.Model):
 class Profile(models.Model):
     avatar = models.ImageField(upload_to='avatars/')
     description = HTMLField()
-    country = models.ForeignKey(countries,on_delete=models.CASCADE)
+    country = models.ForeignKey(Countries,on_delete=models.CASCADE)
     username = models.ForeignKey(User,on_delete=models.CASCADE)
     name =models.CharField(max_length=100)
     email = models.EmailField()
@@ -49,7 +49,7 @@ class Project(models.Model):
     creativity = models.IntegerField(blank=True,default=0)
     content = models.IntegerField(blank=True,default=0)
     overall_score = models.IntegerField(blank=True,default=0)
-    country = models.ForeignKey(countries,on_delete=models.CASCADE)
+    country = models.ForeignKey(Countries,on_delete=models.CASCADE)
     post_date = models.DateTimeField(auto_now_add=True)
     avatar = models.ImageField(upload_to='avatars/')
 
@@ -62,9 +62,6 @@ class Project(models.Model):
         projects = cls.objects.filter(Q(username__username=search_term) | Q(title__icontains=search_term) | Q(country__countries=search_term) | Q(overall_score__icontains=search_term))
         return projects
 
-
-
-
 class Rating(models.Model):
     design = models.IntegerField(blank=True,default=0)
     usability = models.IntegerField(blank=True,default=0)
@@ -73,5 +70,4 @@ class Rating(models.Model):
     overall_score = models.IntegerField(blank=True,default=0)
     project = models.ForeignKey(Project,on_delete=models.CASCADE)
     profile = models.ForeignKey(Profile,on_delete=models.CASCADE)
-
 
