@@ -1,10 +1,10 @@
 from django import forms
-# from .models import Project,Profile,Rating
+from .models import Project,Profile,Rating
 
-# class ProjectForm(forms.ModelForm):
-    # class Meta:
-        # model=Project
-        # exclude=['username','post_date','design','usability','creativity','content','overall_score','profile_picture','country']
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model=Project
+        exclude=['username','post_date','design','usability','creativity','content','overall_score','profile_picture','country']
        
 
 # class ProfileForm(forms.ModelForm):
