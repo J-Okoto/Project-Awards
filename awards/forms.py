@@ -1,13 +1,7 @@
 from django import forms
-from .models import Profile,Post,Rating
+from .models import Profile,Rating
 
-class PostForm(forms.ModelForm):
-    class Meta:
-        model=Post
-        exclude=['username','post_date','design','usability','creativity','content','overall_score','avatar',]
-        widgets={
-        
-        }
+
 
 class ProfileForm(forms.ModelForm):
     class Meta:

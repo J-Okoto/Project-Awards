@@ -1,64 +1,77 @@
 from django.db import models
 from django.contrib.auth.models import User
+from tinymce.models import HTMLField
+from django.db.models import Q
+import datetime as dt
 
 # Create your models here.
-class Profile(models.Model):
-    user = models.OneToOneField(User, null=True, related_name='profile')
-    first_name = models.CharField(max_length=50, null=True)
-    last_name = models.CharField(max_length=50, null=True)
-    profile_photo = models.ImageField(upload_to='images/', blank=True,default='dwf_profile.jpg')
-    user_name = models.CharField(max_length=50, null=True)
-    bio = models.TextField(blank=True)
-    phone = models.IntegerField(null=True)
-    email = models.CharField(max_length=50, null=True)
-
-    def save_profile(self, current_user):
-        self.user = current_user
-        self.save()
+class countries(models.Model):
+    countries = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.user_name
+        return self.countries
 
-class Post(models.Model):
-        uploaded_by = models.ForeignKey(User, null=True, related_name='posts')
-        name = models.CharField(max_length=200, null=True)
-        landing_image = models.ImageField(upload_to='site-images/', null=True)
-        description = models.TextField(blank=True)
-        site_link = models.CharField(max_length=200, null=True)
-        post_date = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        ordering = ['countries']
 
-        @classmethod
-        def all_posts(cls):
-            all_posts = cls.objects.all()
-            return all_posts
 
-        @classmethod
-        def filter_by_search_term(cls, search_term):
-            return cls.objects.filter(description__icontains=search_term)
+    def save_country(self):
+        self.save()
 
-        def get_user_profile(self, post):
-            posts = self.objects.filter(uploaded_by=post.uploaded_by)
-            return posts
+    @classmethod
+    def delete_country(cls,countries):
+        cls.objects.filter(countries=countries).delete()
 
-        def get_one_post(self, post_id):
-            return self.objects.get(pk=post_id)
 
-        def save_post(self, user):
-            self.uploaded_by = user
-            self.save()
+class Profile(models.Model):
+    avatar = models.ImageField(upload_to='avatars/')
+    description = HTMLField()
+    country = models.ForeignKey(countries,on_delete=models.CASCADE)
+    username = models.ForeignKey(User,on_delete=models.CASCADE)
+    name =models.CharField(max_length=100)
+    email = models.EmailField()
 
-        def __str__(self):
-            return self.name
+    def __str__(self):
+        return self.name
+
+class Project(models.Model):
+    title = models.CharField(max_length=150)
+    landing_page = models.ImageField(upload_to='landingpage/')
+    description = HTMLField()
+    link= models.CharField(max_length=255)
+    username = models.ForeignKey(User,on_delete=models.CASCADE)
+    screenshot1 = models.ImageField(upload_to='screenshots/')
+    screenshot2 = models.ImageField(upload_to='screenshots/')
+    screenshot3 = models.ImageField(upload_to='screenshots/')
+    screenshot4 = models.ImageField(upload_to='screenshots/')
+    design = models.IntegerField(blank=True,default=0)
+    usability = models.IntegerField(blank=True,default=0)
+    creativity = models.IntegerField(blank=True,default=0)
+    content = models.IntegerField(blank=True,default=0)
+    overall_score = models.IntegerField(blank=True,default=0)
+    country = models.ForeignKey(countries,on_delete=models.CASCADE)
+    post_date = models.DateTimeField(auto_now_add=True)
+    avatar = models.ImageField(upload_to='avatars/')
+
+    def __str__(self):
+        return self.title
+
+    @classmethod
+    def search_project(cls,search_term):
+        # projects = cls.objects.filter(Q(username__username=search_term) | Q(title__icontains=search_term) | Q(colors__colors=search_term) | Q(technologies__technologies=search_term) | Q(categories__categories=search_term) | Q(country__countries=search_term))
+        projects = cls.objects.filter(Q(username__username=search_term) | Q(title__icontains=search_term) | Q(country__countries=search_term) | Q(overall_score__icontains=search_term))
+        return projects
+
+
 
 
 class Rating(models.Model):
-    user = models.ForeignKey(User, related_name='ratings', null=True)
-    post = models.ForeignKey(Post, related_name='ratings', null=True)
-    post_date = models.DateTimeField(auto_now_add=True, null=True)
-    usability = models.FloatField(default=0.00, null=True)
-    design = models.FloatField(default=0.00, null=True)
-    creativity = models.FloatField(default=0.00, null=True)
-    content = models.FloatField(default=0.00, null=True)
+    design = models.IntegerField(blank=True,default=0)
+    usability = models.IntegerField(blank=True,default=0)
+    creativity = models.IntegerField(blank=True,default=0)
+    content = models.IntegerField(blank=True,default=0)
     overall_score = models.IntegerField(blank=True,default=0)
+    project = models.ForeignKey(Project,on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile,on_delete=models.CASCADE)
 
 
