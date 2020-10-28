@@ -11,6 +11,9 @@ urlpatterns=[
     url(r'^new/project$',views.new_project, name='new-project'),
     url(r'^site/(\d+)',views.site,name='site'),
    
+    url(r'^api/profiles/$', views.ProfileList.as_view()),
+    url(r'^api/projects/$', views.ProjectList.as_view()),
+    url(r'^api/countries/$', views.countriesList.as_view()),
 ]
 
 if settings.DEBUG:
