@@ -12,6 +12,12 @@ from django.contrib import auth, messages
 from .forms import *
 from .models import *
 
+
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializer import ProfileSerializer,ProjectSerializer,technologiesSerializer,colorsSerializer,countriesSerializer,categoriesSerializer
+
+
 # Create your views here.
 @login_required(login_url='/accounts/login/')
 def welcome(request):
@@ -152,3 +158,20 @@ def site(request,site_id):
     return render(request,"site.html",{"project":project,"profile":profile,"ratings":ratings,"form":form})
 
 
+class ProfileList(APIView):
+    def get(self, request, format=None):
+        all_profiles = Profile.objects.all()
+        serializers = ProfileSerializer(all_profiles, many=True)
+        return Response(serializers.data)
+
+class ProjectList(APIView):
+    def get(self, request, format=None):
+        all_projects = Project.objects.all()
+        serializers = ProjectSerializer(all_projects, many=True)
+        return Response(serializers.data)
+
+class categoriesList(APIView):
+    def get(self, request, format=None):
+        all_categories = categories.objects.all()
+        serializers = categoriesSerializer(all_categories, many=True)
+        return Response(serializers.data)
