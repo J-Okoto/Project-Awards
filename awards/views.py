@@ -26,14 +26,14 @@ def welcome(request):
     caraousel = Project.objects.order_by('-overall_score')
     
 
-    # try:
-    #     if not request.user.is_authenticated:
-    #         return redirect('/accounts/login/')
-    #     current_user = request.user
-    #     profile =Profile.objects.get(username=current_user)
-    #     print(current_user)
-    # except ObjectDoesNotExist:
-    #     return redirect('create-profile')
+    try:
+        if not request.user.is_authenticated:
+            return redirect('/accounts/login/')
+        current_user = request.user
+        profile =Profile.objects.get(username=current_user)
+        print(current_user)
+    except ObjectDoesNotExist:
+        return redirect('create-profile')
 
     return render(request,'index.html',{"winners":winners,"profile":profile,"caraousel":caraousel,"date":date})
 
