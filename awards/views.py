@@ -15,7 +15,7 @@ from .models import *
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializer import ProfileSerializer,ProjectSerializer,technologiesSerializer,colorsSerializer,countriesSerializer,categoriesSerializer
+from .serializer import ProfileSerializer,ProjectSerializer,CountriesSerializer
 
 
 # Create your views here.
@@ -170,8 +170,8 @@ class ProjectList(APIView):
         serializers = ProjectSerializer(all_projects, many=True)
         return Response(serializers.data)
 
-class categoriesList(APIView):
+class CountriesList(APIView):
     def get(self, request, format=None):
-        all_categories = categories.objects.all()
-        serializers = categoriesSerializer(all_categories, many=True)
+        all_countries = countries.objects.all()
+        serializers = countriesSerializer(all_countries, many=True)
         return Response(serializers.data)

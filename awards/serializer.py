@@ -11,7 +11,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         model = Project
         fields='__all__'
 
-class countriesSerializer(serializers.ModelSerializer):
+class CountriesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Countries
         fields='__all__'
