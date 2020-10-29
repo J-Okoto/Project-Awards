@@ -26,7 +26,7 @@ An Application that allows  user to post a project he/she has created and get it
 ## Setup/Installation Requirements
 * Internet access
 * $ git clone : https://github.com/J-okoto/Project-Awards.git
-* $ cd Awards
+* $ cd Project-Awards
 * $ python3.6 -m venv virtual (install virtual environment)
 * $ source virtual/bin/activate
 * $ python3.6 -m pip install -r requirements.txt (install all dependencies)
