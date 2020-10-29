@@ -19,7 +19,7 @@ from .serializer import ProfileSerializer,ProjectSerializer,CountriesSerializer
 
 
 # Create your views here.
-@login_required(login_url='/accounts/login/')
+
 def welcome(request):
     date = dt.date.today()
     winners=Project.objects.all()
@@ -37,7 +37,7 @@ def welcome(request):
 
     return render(request,'index.html',{"winners":winners,"profile":profile,"caraousel":caraousel,"date":date})
 
-
+@login_required(login_url='/accounts/login/')
 def search_results(request):
     current_user = request.user
     profile =Profile.objects.get(username=current_user)
@@ -53,7 +53,7 @@ def search_results(request):
     else:
         message="You haven't searched for any term"
     return render(request,'search.html',{"message":message})
-
+@login_required(login_url='/accounts/login/')
 def create_profile(request):
     current_user = request.user
     if request.method=='POST':
@@ -75,7 +75,7 @@ def profile(request):
     projects=Project.objects.filter(username=current_user)
 
     return render(request,'profile.html',{"projects":projects,"profile":profile})
-
+@login_required(login_url='/accounts/login/')
 def new_project(request):
     current_user = request.user
     profile =Profile.objects.get(username=current_user)
