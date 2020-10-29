@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse,Http404,HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Project,Profile,Rating,Countries
-# from .forms import ProfileForm
+from .forms import ProfileForm
 import datetime as dt
 from django.http import JsonResponse
 import json
@@ -26,14 +26,14 @@ def welcome(request):
     caraousel = Project.objects.order_by('-overall_score')
     
 
-    # try:
-    #     if not request.user.is_authenticated:
-    #         return redirect('/accounts/login/')
+    try:
+        if not request.user.is_authenticated:
+            return redirect('/accounts/login/')
         current_user = request.user
         profile =Profile.objects.get(username=current_user)
         print(current_user)
-    # except ObjectDoesNotExist:
-    #     return redirect('create-profile')
+    except ObjectDoesNotExist:
+        return redirect('create-profile')
 
     return render(request,'index.html',{"winners":winners,"profile":profile,"caraousel":caraousel,"date":date})
 
