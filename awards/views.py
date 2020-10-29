@@ -33,7 +33,7 @@ def welcome(request):
         profile =Profile.objects.get(username=current_user)
         print(current_user)
     except ObjectDoesNotExist:
-        return redirect('create-profile')
+        return redirect('welcome')
 
     return render(request,'index.html',{"winners":winners,"profile":profile,"caraousel":caraousel,"date":date})
 
